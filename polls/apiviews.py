@@ -2,8 +2,7 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
-
+from rest_framework import status, viewsets
 from .models import Question, Choice
 from .serializers import QuestionListPageSerializer, QuestionDetailPageSerializer, ChoiceSerializer, VoteSerializer, QuestionResultPageSerializer
 
@@ -22,6 +21,15 @@ def questions_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['POST'])
+def multiple_questions_view(request):
+    serializer = QuestionListPageSerializer(many=True, data=request.data)
+    if serializer.is_valid():
+        questions = serializer.save()
+        return Response(QuestionDetailPageSerializer(questions, many=True).data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET', 'PATCH', 'DELETE'])
 def question_detail_view(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
@@ -38,15 +46,43 @@ def question_detail_view(request, question_id):
         question.delete()
         return Response("Question deleted", status=status.HTTP_204_NO_CONTENT)
 
+# class multiple_choices_View(viewsets.ModelViewSet):
+#
+#     queryset = Choice.objects.all()
+#     serializer_class = ChoiceSerializer
+#
+#     def create(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data, many=isinstance(request.data,list))
+#         serializer.is_valid(raise_exception=True)
+#         self.perform_create(serializer)
+#         headers = self.get_success_headers(serializer.data)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 @api_view(['POST'])
 def choices_view(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    serializer = ChoiceSerializer(data=request.data)
-    if serializer.is_valid():
-        choice = serializer.save(question=question)
-        return Response(ChoiceSerializer(choice).data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if len(request.data) >= 2:
+        serializer = ChoiceSerializer(data=request.data)
+        split_texts = [x.strip() for x in data.split(",")]
+
+        def create_multiple(self, validated_data):
+            x = 0
+            for t in split_texts:
+                return Choice.objects.create(**validated_data)
+
+                if serializer.is_valid():
+                    choice = serializer.save(question=question+x)
+                    x+=1
+                    return Response(ChoiceSerializer(choice).data, status=status.HTTP_201_CREATED)
+    else:
+        serializer = ChoiceSerializer(data=request.data)
+
+        if serializer.is_valid():
+            choice = serializer.save(question=question)
+            return Response(ChoiceSerializer(choice).data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['PATCH'])
