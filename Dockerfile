@@ -5,8 +5,8 @@ ENV PYTHONUNBUFFERED=1
 RUN apt-get update -y
 WORKDIR /app
 COPY . .
-RUN chmod g+rw -R . ./polls
-RUN chown www-data .
+RUN chmod g+rw -R .
+
 RUN pip install -r requirements.txt
 # RUN adduser -D user
 # USER user
