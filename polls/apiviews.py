@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+import subprocess, datetime
 from django.core.exceptions import ValidationError
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -112,3 +113,19 @@ def question_result_view(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     serializer = QuestionResultPageSerializer(question)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def uptime_view(request):
+    output = subprocess.check_output(['sh', '/app/time.sh'])
+    output = output.split()
+    dates = output[0].decode.split('-')
+    times = output[1].decode.split(':')
+    print(dates, times)
+    year = int(dates[0])
+    month = int(dates[1])
+    day = int(dates[2])
+    hour = int(times[0])
+    mins = int(times[1])
+    sec = int(times[2])
+    d = datetime.datetime(year, month, day, hour, mins, sec)
+    return Response(d.now(timezone.utc).astimezone().isoformat())

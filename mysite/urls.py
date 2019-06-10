@@ -21,4 +21,6 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
     path('api/polls/', include('polls.urls')), #added yesterday
+    path('api/status/', include('watchman.urls')),
+    path('api/uptime/', include('polls.urls')),
 ]

@@ -15,4 +15,6 @@ urlpatterns = [
     path('questions/multiple-questions/', apiviews.multiple_questions_view, name='multiple_questions_view'),
     # path('questions/<int:question_id>/fullinput/', apiviews.multiple_choices_View.as_view(), name = 'fullview'),
     path('questions/<int:question_id>/add_votes/', apiviews.vote_view, name='api_vote'),
+    path('uptime/', apiviews.uptime_view, name='uptime_view'),
+    
 ]
