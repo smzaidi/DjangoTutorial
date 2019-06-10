@@ -25,12 +25,14 @@ SECRET_KEY = 'n&oqgsd)$r%g^_8kimy%cz@&tt)qa2bhwfra9v2ohkmyy-^*@9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    # 'polls',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
