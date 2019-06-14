@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import rest_framework
-
+from datetime import timedelta
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -74,7 +75,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
+REST_FRAMEWORK = {
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+       # 'rest_framework.authentication.TokenAuthentication',
+       'polls.authenticate.TokenAuthentication',
 
+   ),
+   'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+   ),
+}
+
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(days=999999),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=999999),
+#     }
+
+# AUTHENTICATION_BACKENDS = {
+#     'polls.backend.MyCustomBackend',
+# }
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -123,6 +142,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-WATCHMAN_CHECKS = (
-        'polls.checks.recentActivity'
-        )
+# WATCHMAN_CHECKS = (
+#         'polls.checks.recentActivity'
+#         )
