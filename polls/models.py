@@ -78,7 +78,7 @@ class StaticToken(models.Model):
 #    def generate_key(self):
 #        return binascii.hexlify(os.urandom(20)).decode()
     def generate_key(self):
-        return 'AAAAAAAAAAAAAAAAAAAA'
+        return str(SECRET_TOKEN)
 
     def __str__(self):
         return self.key
