@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'polls.authtoken',
+    'polls.authtoken',
     # 'rest_framework.authtoken',
 ]
 

@@ -15,6 +15,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers, serializers, viewsets
+import watchman
+from polls.authtoken import views
 
 
 urlpatterns = [
@@ -23,4 +25,5 @@ urlpatterns = [
     path('api/polls/', include('polls.urls')), #added yesterday
     path('api/status/', include('watchman.urls')),
     path('api/uptime/', include('polls.urls')),
+    path('token/', views.obtain_auth_token),
 ]

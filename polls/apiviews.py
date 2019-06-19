@@ -116,10 +116,11 @@ def question_result_view(request, question_id):
 
 @api_view(['GET'])
 def uptime_view(request):
-    output = subprocess.check_output(['sh', '/app/time.sh'])
+    output = subprocess.check_output(['sh', '/app/polls/time.sh'])
+    return Response(output)
     output = output.split()
-    dates = output[0].decode.split('-')
-    times = output[1].decode.split(':')
+    dates = output[0].decode().split('-')
+    times = output[1].decode().split(':')
     print(dates, times)
     year = int(dates[0])
     month = int(dates[1])
@@ -128,4 +129,5 @@ def uptime_view(request):
     mins = int(times[1])
     sec = int(times[2])
     d = datetime.datetime(year, month, day, hour, mins, sec)
-    return Response(d.now(timezone.utc).astimezone().isoformat())
+    isoformat = d.now(timezone.utc).astimezone().isoformat()
+    return Response("{"+ "'dateTime'" + ": " "'" + str(isoformat) + "'"+ "}")
