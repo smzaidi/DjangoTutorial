@@ -1,7 +1,7 @@
 #A python-3.7.x application; currently, I am running v 3.7.2
 FROM python:latest
 MAINTAINER smzaidi "smzaidi@umich.edu"
-ENV SECRET_TOKEN='AAAAAAAAAAAAAAAAAAAA'
+#ENV SECRET_TOKEN='AAAAAAAAAAAAAAAAAAAZ'
 RUN apt-get update -y
 WORKDIR /app
 COPY . .
