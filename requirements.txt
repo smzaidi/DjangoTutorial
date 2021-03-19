@@ -1,4 +1,4 @@
 django>=2.2.0<2.3.0
-djangorestframework==3.9.4
+djangorestframework==3.11.2
 django-watchman
 requests
